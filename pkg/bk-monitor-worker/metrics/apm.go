@@ -283,6 +283,7 @@ func RecordApmPreCalcWindowSpanTotal(dataId string, subWindowId int, n int) {
 func init() {
 	// register the metrics
 	Registry.MustRegister(
+		apmPreCalcNotifierReceiveByteTotal,
 		apmPreCalcNotifierReceiveMessageCount,
 		apmPreCalcNotifierRejectMessageCount,
 		apmPreCalcParseSpanDuration,
