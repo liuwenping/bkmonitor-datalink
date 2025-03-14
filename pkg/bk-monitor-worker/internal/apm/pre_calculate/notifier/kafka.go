@@ -145,6 +145,7 @@ func (c consumeHandler) ConsumeClaim(session sarama.ConsumerGroupSession, claim 
 			}
 
 			metrics.AddApmNotifierReceiveMessageCount(c.dataId, c.topic)
+			metrics.AddApmNotifierReceiveMessageByteTotal(c.dataId, c.topic, len(msg.Value))
 			if session != nil {
 				c.sendSpans(msg.Value)
 				session.MarkMessage(msg, "")

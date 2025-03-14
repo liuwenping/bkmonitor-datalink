@@ -22,6 +22,16 @@ var (
 		0.001, 0.005, 0.01, 0.05, 0.1, 0.25, 0.5, 1, 2, 5, 10, 20, 30, 60, 120, 300, 600, 1000, 1500, 2000, 3000, 5000,
 	}
 
+	// apmPreCalcNotifierReceiveByteTotal apm预计算任务接收字节总量
+	apmPreCalcNotifierReceiveByteTotal = prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Namespace: ApmNamespace,
+			Name:      "notifier_receive_byte_total",
+			Help:      "notifier receive byte total",
+		},
+		[]string{"data_id", "topic"},
+	)
+
 	// apmPreCalcNotifierReceiveMessageCount apm预计算任务接收数量
 	apmPreCalcNotifierReceiveMessageCount = prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
@@ -250,6 +260,11 @@ func RecordApmPreCalcSemaphoreTotal(dataId, scene string, n int) {
 // AddApmNotifierReceiveMessageCount apm预计算任务接收数量指标 + 1
 func AddApmNotifierReceiveMessageCount(dataId, topic string) {
 	apmPreCalcNotifierReceiveMessageCount.WithLabelValues(dataId, topic).Inc()
+}
+
+// AddApmNotifierReceiveMessageByteTotal apm预计算任务接收字节数
+func AddApmNotifierReceiveMessageByteTotal(dataId, topic string, n int) {
+	apmPreCalcNotifierReceiveByteTotal.WithLabelValues(dataId, topic).Add(float64(n))
 }
 
 // AddApmPreCalcNotifierRejectMessageCount apm预计算任务拒绝数量指标 + 1
