@@ -176,7 +176,10 @@ func (c consumeHandler) sendSpans(message []byte) {
 		metrics.RecordQueueSpanDelta(c.dataId, s.StartTime)
 	}
 	metrics.RecordNotifierParseSpanDuration(c.dataId, c.topic, start)
-	c.spans <- res
+
+	// 临时注释，让数据不往后传递
+	return
+	//c.spans <- res
 }
 
 func newKafkaNotifier(dataId string, setters ...Option) (Notifier, error) {
